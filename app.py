@@ -3,7 +3,7 @@ import mysql.connector
 
 app = Flask(__name__)
 
-#Função de conexão com o banco
+# Função de conexão com o banco
 def conectar_banco():
     return mysql.connector.connect(
         host='localhost',
@@ -11,11 +11,9 @@ def conectar_banco():
         password='',
         database='loja',
     )
-
-#Rotas
-
-#Rota para o arquivo index
-@app.route('/')
+"""
+# Rota para o arquivo index
+@app.route('/index')
 def index():
     conexao = conectar_banco()
     cursor = conexao.cursor()
@@ -48,7 +46,7 @@ def deletar(id):
     cursor.close()
     conexao.close()
 
-    return redirect(url_for('index'))
+    return redirect(url_for('index'))"""
 
 if __name__ == '__main__':
-    app.run(debug=True)#Debug automatico
+    app.run(debug=True)  #Debug automático
