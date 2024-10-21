@@ -40,38 +40,36 @@ def login():
     # Redireciona para a página inicial
     return redirect(url_for('index'))
 
-@app.route('/cadastro', methods=['POST'])
-def cadastro():
-    username = request.form['username']
-    password = request.form['password']
+@app.route('/cadastro', methods=['GET', 'POST'])
+def cadastro_page():
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
 
-    # Conecta ao banco de dados
-    conexao = conectar_banco()
-    cursor = conexao.cursor()
+        conexao = conectar_banco()
+        cursor = conexao.cursor()
 
-    # Verifica se o usuário já existe
-    query = "SELECT * FROM usuarios WHERE username = %s"
-    cursor.execute(query, (username,))
-    user = cursor.fetchone()
+        # Verifica se o usuário já existe
+        query = "SELECT * FROM usuarios WHERE username = %s"
+        cursor.execute(query, (username,))
+        user = cursor.fetchone()
 
-    if user:
+        if user:
+            cursor.close()
+            conexao.close()
+            return 'Usuário já existe. Faça login.'
+
+        # Insere o novo usuário com senha hash
+        senha_hash = generate_password_hash(password)
+        query = "INSERT INTO usuarios (username, password) VALUES (%s, %s)"
+        cursor.execute(query, (username, senha_hash))
+        conexao.commit()
+
         cursor.close()
         conexao.close()
-        return 'Usuário já existe. Faça login.'
 
-    # Insere o novo usuário no banco de dados com a senha hash
-    senha_hash = generate_password_hash(password)
-    query = "INSERT INTO usuarios (username, password) VALUES (%s, %s)"
-    cursor.execute(query, (username, senha_hash))
-    conexao.commit()
+        return redirect(url_for('login_page'))
 
-    cursor.close()
-    conexao.close()
-
-    return 'Cadastro bem-sucedido. Faça login.'
-
-@app.route('/cadastro_page')
-def cadastro_page():
     return render_template('cadastro.html')
 
 @app.route('/logout')
