@@ -1,6 +1,6 @@
 import unittest
 import mysql.connector
-from app import conectar_banco  #Importa a função que conecta ao banco
+from conexao import conectar_banco  #Importa a função que conecta ao banco
 
 class TestDatabaseConnection(unittest.TestCase):
     
@@ -15,3 +15,4 @@ class TestDatabaseConnection(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+#Retorna "OK" se a conexão for bem sucedida!

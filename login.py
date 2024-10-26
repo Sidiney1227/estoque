@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for
 import mysql.connector
 from werkzeug.security import check_password_hash, generate_password_hash
-from app import conectar_banco  # Importa a função que conecta ao banco
+from conexao import conectar_banco  # Importa a função que conecta ao banco
 
 app = Flask(__name__)
 
@@ -27,6 +27,7 @@ def login():
         cursor.close()
         conexao.close()
         return 'Usuário não encontrado.'
+    
 #Verifica se o hash da senha é igual ao do banco de dados, caso não seja redireciona a pagina de login novamente
     if not check_password_hash(user['password'], password):
         cursor.close()
@@ -75,43 +76,4 @@ def cadastro_page():
 @app.route('/logout')
 def logout():
     return redirect(url_for('login_page'))
-
-# Rota para o arquivo index
-@app.route('/index')
-def index():
-    conexao = conectar_banco()
-    cursor = conexao.cursor()
-    cursor.execute('SELECT * FROM produtos;')
-    produtos = cursor.fetchall()
-    cursor.close()
-    conexao.close()
-    return render_template('index.html', produtos=produtos)
-
-@app.route('/inserir', methods=['POST'])
-def inserir():
-    nome = request.form['nome']
-    preco = float(request.form['preco'])
-    estoque = int(request.form['estoque'])
-    conexao = conectar_banco()
-    cursor = conexao.cursor()
-    cursor.execute('INSERT INTO produtos (nome, preco, estoque) VALUES (%s, %s, %s)', (nome, preco, estoque))
-    conexao.commit()
-    cursor.close()
-    conexao.close()
-
-    return redirect(url_for('index'))
-
-@app.route('/deletar/<int:id>')
-def deletar(id):
-    conexao = conectar_banco()
-    cursor = conexao.cursor()
-    cursor.execute('DELETE FROM produtos WHERE id = %s', (id,))
-    conexao.commit()
-    cursor.close()
-    conexao.close()
-
-    return redirect(url_for('index'))
-
-if __name__ == '__main__':
-    app.run(debug=True)
 

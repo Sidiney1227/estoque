@@ -1,52 +1,21 @@
-from flask import Flask, render_template, request, redirect, url_for
-import mysql.connector
+from flask import Flask
+from mysql.connector import connect
+from conexao import conectar_banco  # Importa a função que conecta ao banco
 
 app = Flask(__name__)
 
-# Função de conexão com o banco
-def conectar_banco():
-    return mysql.connector.connect(
-        host='localhost',
-        user='root',
-        password='',
-        database='loja',
-    )
-"""
-# Rota para o arquivo index
-@app.route('/index')
-def index():
-    conexao = conectar_banco()
-    cursor = conexao.cursor()
-    cursor.execute('SELECT * FROM produtos')
-    produtos = cursor.fetchall()
-    cursor.close()
-    conexao.close()
-    return render_template('index.html', produtos=produtos)
+# Importa as rotas de outros arquivos
+from login import login_page, login, cadastro_page, logout
+from views import index, inserir, deletar
 
-@app.route('/inserir', methods=['POST'])
-def inserir():
-    nome = request.form['nome']
-    preco = float(request.form['preco'])
-    estoque = int(request.form['estoque'])
-    conexao = conectar_banco()
-    cursor = conexao.cursor()
-    cursor.execute('INSERT INTO produtos (nome, preco, estoque) VALUES (%s, %s, %s)', (nome, preco, estoque))
-    conexao.commit()
-    cursor.close()
-    conexao.close()
-
-    return redirect(url_for('index'))
-
-@app.route('/deletar/<int:id>')
-def deletar(id):
-    conexao = conectar_banco()
-    cursor = conexao.cursor()
-    cursor.execute('DELETE FROM produtos WHERE id = %s', (id,))
-    conexao.commit()
-    cursor.close()
-    conexao.close()
-
-    return redirect(url_for('index'))"""
+# Registrar as rotas no app
+app.add_url_rule('/', 'login_page', login_page)
+app.add_url_rule('/login', 'login', login, methods=['POST'])
+app.add_url_rule('/cadastro', 'cadastro_page', cadastro_page, methods=['GET', 'POST'])
+app.add_url_rule('/logout', 'logout', logout)
+app.add_url_rule('/index', 'index', index)
+app.add_url_rule('/inserir', 'inserir', inserir, methods=['POST'])
+app.add_url_rule('/deletar/<int:id>', 'deletar', deletar)
 
 if __name__ == '__main__':
-    app.run(debug=True)  #Debug automático
+    app.run(debug=True)
