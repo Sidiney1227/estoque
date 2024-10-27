@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Histórico de Movimentações de Estoque</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: center; }
+        th { background-color: #f2f2f2; }
+    </style>
+</head>
+<body>
+
+<h1>Histórico de Movimentações de Estoque</h1>
+
+<!-- Tabela de Histórico -->
+<table>
+    <thead>
+        <tr>
+            <th>ID_Movimentaçao</th>
+            <th>ID_produto</th>
+            <th>Tipo</th>
+            <th>Quantidade</th>
+            <th>Data/hora</th>
+            <th>Valor Unitario</th>
+            <th>Valor Total</th>
+            <th>Responsável</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for movimentacao in historico %}
+        <tr>
+            <td>{{ movimentacao[0] }}</td>  <!-- Id_movimentação-->
+            <td>{{ movimentacao[1] }}</td>  <!-- Id_produto-->
+            <td>{{ movimentacao[2] }}</td>  <!-- Tipo entrada/saida-->
+            <td>{{ movimentacao[3] }}</td>  <!-- Quantidade-->
+            <td>{{ movimentacao[4] }}</td>  <!-- Data/hora-->
+            <td>R$ {{ movimentacao[5] }}</td>  <!-- Valor unitario-->
+            <td>R$ {{ movimentacao[6] }}</td>  <!-- Valor total-->
+            <td>{{ movimentacao[7] }}</td>  <!-- responsavel-->
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<button onclick="location.href='/index'" style="margin-top: 10px; padding: 8px 16px; background-color: #4CAF50; color: white; border: none; cursor: pointer;">
+    Voltar para a página inicial
+</button>
+
+
+</body>
+</html>

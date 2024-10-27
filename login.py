@@ -41,6 +41,7 @@ def login():
     # Redireciona para a página inicial
     return redirect(url_for('index'))
 
+#Rota para cadastro
 @app.route('/cadastro', methods=['GET', 'POST'])
 def cadastro_page():
     if request.method == 'POST':

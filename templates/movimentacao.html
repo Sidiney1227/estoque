@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movimentação de Estoque</title>
+</head>
+<body>
+    <h1>Registrar Movimentação de Estoque</h1>
+    
+    <form action="/registrar_movimentacao" method="POST">
+        <!-- Tipo de Movimentação (Entrada ou Saída) -->
+        <label for="tipo_movimentacao">Tipo de Movimentação:</label>
+        <select name="tipo_movimentacao" id="tipo_movimentacao" required>
+            <option value="entrada">Entrada</option>
+            <option value="saida">Saída</option>
+        </select>
+        <br><br>
+
+        <!-- ID do Produto -->
+        <label for="id_produto">ID do Produto:</label>
+        <input type="number" id="id_produto" name="id_produto" required>
+        <br><br>
+
+        <!-- Quantidade -->
+        <label for="quantidade">Quantidade:</label>
+        <input type="number" id="quantidade" name="quantidade" min="1" required>
+        <br><br>
+
+        <!-- Valor Unitário -->
+        <label for="valor_unitario">Valor Unitário:</label>
+        <input type="number" id="valor_unitario" name="valor_unitario" step="0.01" required>
+        <br><br>
+
+        <!-- Responsável pela Movimentação -->
+        <label for="responsavel">Responsável:</label>
+        <input type="text" id="responsavel" name="responsavel" required>
+        <br><br>
+
+        <!-- Observações -->
+        <label for="observacoes">Observações:</label>
+        <textarea id="observacoes" name="observacoes"></textarea>
+        <br><br>
+
+        <!-- Botão para Submeter o Formulário -->
+        <button type="submit">Registrar Movimentação</button>
+    </form>
+
+    <!-- Link para a página inicial -->
+    <br>
+    <button onclick="location.href='/historico'" style="margin-top: 10px; padding: 8px 16px; background-color: #4CAF50; color: white; border: none; cursor: pointer;">
+        Consultar movimentações
+    </button>
+    <button onclick="location.href='/index'" style="margin-top: 10px; padding: 8px 16px; background-color: #4CAF50; color: white; border: none; cursor: pointer;">
+        Voltar para a página inicial
+    </button>
+    
+    
+</body>
+</html>
